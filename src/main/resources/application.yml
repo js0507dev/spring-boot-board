@@ -8,6 +8,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     generate-ddl: false
     database: mysql
     show-sql: true
