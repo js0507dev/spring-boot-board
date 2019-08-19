@@ -1,7 +1,7 @@
-package js.spring.boot.board.repository;
+package js.spring.boot.board.user.repository;
 
-import js.spring.boot.board.model.User;
-import org.junit.After;
+import js.spring.boot.board.user.model.User;
+import js.spring.boot.board.user.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @RunWith(SpringRunner.class)

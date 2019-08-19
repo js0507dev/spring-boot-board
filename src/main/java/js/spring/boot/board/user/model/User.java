@@ -1,9 +1,8 @@
-package js.spring.boot.board.model;
+package js.spring.boot.board.user.model;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
