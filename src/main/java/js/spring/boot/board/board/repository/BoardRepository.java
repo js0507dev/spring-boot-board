@@ -1,4 +1,4 @@
-package js.spring.boot.board.repository;
+package js.spring.boot.board.board.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
