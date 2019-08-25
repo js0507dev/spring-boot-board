@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ public class User {
     @Id
     @Column(length = 40)
     private String id;
-    @Column(length = 30)
+    @Column(length = 100)
     private String name;
     @Column(length = 50)
     private String password;
@@ -43,6 +44,22 @@ public class User {
     }
 
     public boolean validate() {
+        if(this.id == null || this.id.length() == 0 ||
+                !Pattern.compile("^([a-zA-Z])[0-9a-zA-Z]+$").matcher(this.id).find()) {
+            return false;
+        }
+        if(this.name == null || this.name.length() == 0 ||
+                !Pattern.compile("[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+").matcher(this.name).find()) {
+            return false;
+        }
+        if(this.emailAddr != null &&
+                !Pattern.compile("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$").matcher(this.emailAddr).find()) {
+            return false;
+        }
+        if(this.password == null || this.password.length() == 0 ||
+                !Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$").matcher(this.password).find()) {
+            return false;
+        }
         return true;
     }
 }
