@@ -1,4 +1,4 @@
-package js.spring.boot.board.controller;
+package js.spring.boot.board.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

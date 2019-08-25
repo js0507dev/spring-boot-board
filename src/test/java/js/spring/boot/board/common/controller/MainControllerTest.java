@@ -1,4 +1,4 @@
-package js.spring.boot.board.controller;
+package js.spring.boot.board.common.controller;
 
 import org.junit.Before;
 import org.junit.Test;
