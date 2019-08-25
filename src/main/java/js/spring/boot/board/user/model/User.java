@@ -41,4 +41,8 @@ public class User {
     public User() {
         this("", "", "", "");
     }
+
+    public boolean validate() {
+        return true;
+    }
 }
