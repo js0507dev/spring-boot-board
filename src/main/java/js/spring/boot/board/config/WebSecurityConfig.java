@@ -14,33 +14,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    UserService userService;
+  @Autowired
+  UserService userService;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/board/**").authenticated()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/user/login")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("id")
-                .failureUrl("/user/login")
-                .and()
-                .logout()
-                ;
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+      .antMatchers("/board/**").authenticated()
+      .anyRequest().permitAll()
+      .and()
+      .formLogin()
+      .loginPage("/user/login")
+      .loginProcessingUrl("/user/login")
+      .defaultSuccessUrl("/")
+      .usernameParameter("id")
+      .failureUrl("/user/login")
+      .and()
+      .logout()
+    ;
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 }
