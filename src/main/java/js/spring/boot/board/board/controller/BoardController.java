@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    final static String BOARD_TEMPLATE_PREFIX = "board/";
+    private static final String TEMPLATE_PREFIX = "board/";
     @GetMapping("/")
     public String list(HttpServletRequest req,
                        ModelAndView model) throws Exception {
-        String template = BOARD_TEMPLATE_PREFIX + "list";
+        String template = TEMPLATE_PREFIX + "list";
         return template;
     }
 }
