@@ -13,17 +13,24 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    UserService userService;
+  private static final String TEMPLATE_PREFIX = "user/";
+  @Autowired
+  UserService userService;
 
-    @PostMapping("")
-    public String create(User user) {
-        userService.createUser(user);
-        return "redirect:/";
-    }
+  @PostMapping("")
+  public String join(User user) {
+    System.out.println("test : " + user.toString());
+    userService.createUser(user);
+    return "redirect:/";
+  }
 
-    @GetMapping("/login")
-    public String loginForm(HttpServletRequest req) {
-        return "user/login";
-    }
+  @GetMapping("")
+  public String joinForm() {
+    return TEMPLATE_PREFIX + "join";
+  }
+
+  @GetMapping("/login")
+  public String loginForm(HttpServletRequest req) {
+    return TEMPLATE_PREFIX + "login";
+  }
 }
