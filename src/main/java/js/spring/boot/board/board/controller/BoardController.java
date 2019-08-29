@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/board")
 public class BoardController {
     private static final String TEMPLATE_PREFIX = "board/";
-    @GetMapping("/")
-    public String list(HttpServletRequest req,
+    @GetMapping("/{id}")
+    public String selectOne(HttpServletRequest req,
                        ModelAndView model) throws Exception {
-        String template = TEMPLATE_PREFIX + "list";
-        return template;
+        return TEMPLATE_PREFIX + "singlePage";
     }
 }
