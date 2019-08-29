@@ -40,7 +40,6 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-
     return Optional.ofNullable(userRepository.findById(id))
       .filter(u -> u != null)
       .map(u -> new SecurityUser(u.get())).get();
