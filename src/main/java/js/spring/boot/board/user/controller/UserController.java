@@ -19,7 +19,6 @@ public class UserController {
 
   @PostMapping("")
   public String join(User user) {
-    System.out.println("test : " + user.toString());
     userService.createUser(user);
     return "redirect:/";
   }
