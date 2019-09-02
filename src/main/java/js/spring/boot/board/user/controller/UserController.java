@@ -17,19 +17,19 @@ public class UserController {
   @Autowired
   UserService userService;
 
-  @PostMapping("")
-  public String join(User user) {
-    userService.createUser(user);
-    return "redirect:/";
+  @GetMapping("/login")
+  public String loginForm(HttpServletRequest req) {
+    return TEMPLATE_PREFIX + "login";
   }
 
-  @GetMapping("")
+  @GetMapping("/join")
   public String joinForm() {
     return TEMPLATE_PREFIX + "join";
   }
 
-  @GetMapping("/login")
-  public String loginForm(HttpServletRequest req) {
-    return TEMPLATE_PREFIX + "login";
+  @PostMapping("/join")
+  public String join(User user) {
+    userService.createUser(user);
+    return "redirect:/";
   }
 }
