@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,4 +19,12 @@ public class Board {
   private LocalDate changeDate;
   private Long viewCount;
   private String writerId;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  /*@JoinColumns({
+          @JoinColumn(name = "id"),
+          @JoinColumn(name = "boardId")
+  })*/
+  @JoinColumn(name = "boardId")
+  private List<BoardFile> boardFiles;
 }

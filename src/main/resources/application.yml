@@ -13,3 +13,8 @@ spring:
     generate-ddl: false
     database: mysql
     show-sql: true
+  thymeleaf:
+    cache: false
+  devtools:
+    livereload:
+      enabled: true
