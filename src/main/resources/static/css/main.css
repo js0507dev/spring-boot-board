@@ -23,9 +23,10 @@
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	display: none;
+    margin: 5px;
 	cursor: pointer;
 	border-radius: 0.2em;
+    display: inline-grid;
 }
 #tiles li img{
 	border-top-left-radius:0.2em;

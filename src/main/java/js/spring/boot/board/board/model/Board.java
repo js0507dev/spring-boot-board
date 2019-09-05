@@ -20,11 +20,11 @@ public class Board {
   private Long viewCount;
   private String writerId;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  /*@JoinColumns({
-          @JoinColumn(name = "id"),
-          @JoinColumn(name = "boardId")
-  })*/
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "boardId")
   private List<BoardFile> boardFiles;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "boardId")
+  private List<BoardCategory> boardCategories;
 }
