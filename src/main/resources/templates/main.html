@@ -46,8 +46,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     var $itemHtml = '<li>';
                     $itemHtml += '<div class="post-info">';
                     $itemHtml += '<div class="post-basic-info">';
-                    $itemHtml += '<h3><a href="#">'+$item.title+'</a></h3>';
-
+                    $itemHtml += '<h3><a href="#">'+$item.title.substr(0,15)+'...</a></h3>';
+                    $itemHtml += '<p>'+$item.content.substr(0, 50)+'...</p>';
                     if($item.boardCategories.length > 0) {
                         $itemHtml += '<span><label> </label>';
                         $.each($item.boardCategories, function ($ci, $category) {
@@ -55,8 +55,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         });
                         $itemHtml += '</span>';
                     }
-
-                    $itemHtml += '<p>'+$item.content.substr(0, 100)+'</p>';
                     $itemHtml += '</div>';
                     $itemHtml += '<div class="post-info-rate-share">';
                     $itemHtml += '<div class="post-view">';
