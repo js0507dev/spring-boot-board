@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class BoardService {
   @Autowired
@@ -16,5 +18,10 @@ public class BoardService {
   @Transactional(readOnly = true)
   public Page<Board> findAll(Pageable pageable) {
     return boardRepository.findAll(pageable);
+  }
+
+  @Transactional(readOnly = true)
+  public Optional<Board> findById(Long id) {
+    return boardRepository.findById(id);
   }
 }
