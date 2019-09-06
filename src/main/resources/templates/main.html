@@ -46,8 +46,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     var $itemHtml = '<li>';
                     $itemHtml += '<div class="post-info">';
                     $itemHtml += '<div class="post-basic-info">';
-                    $itemHtml += '<h3><a href="#">'+$item.title.substr(0,15)+'...</a></h3>';
-                    $itemHtml += '<p>'+$item.content.substr(0, 50)+'...</p>';
+                    if($item.title.length > 15) {
+                        $item.title = $item.title.substr(0, 15)+'...';
+                    }
+                    $itemHtml += '<h3><a href="#">'+$item.title+'...</a></h3>';
+                    if($item.content.length > 50) {
+                        $item.content = $item.content.substr(0, 50)+'...';
+                    }
+                    $itemHtml += '<p>'+$item.content+'...</p>';
                     if($item.boardCategories.length > 0) {
                         $itemHtml += '<span><label> </label>';
                         $.each($item.boardCategories, function ($ci, $category) {
@@ -90,8 +96,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     }
 
     // Call the layout function for the first time
-    //for(i=0; i<20; i++)
-        loadBoardList();
+      loadBoardList();
 
     $window.bind('scroll', onScroll);
 </script>
