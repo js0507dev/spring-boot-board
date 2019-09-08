@@ -27,4 +27,8 @@ public class Board {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "boardId")
   private List<BoardCategory> boardCategories;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "boardId")
+  private List<Comment> comments;
 }
