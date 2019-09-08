@@ -9,7 +9,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <head th:replace="fragments/header :: header">
 </head>
 <body>
-<!---start-wrap---->
 <div th:replace="fragments/contentTop :: contentTop"></div>
 <!---start-content---->
 <div class="content">
@@ -49,7 +48,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     if($item.title.length > 15) {
                         $item.title = $item.title.substr(0, 15)+'...';
                     }
-                    $itemHtml += '<h3><a href="#">'+$item.title+'...</a></h3>';
+                    $itemHtml += '<h3><a href="/board/'+$item.id+'">'+$item.title+'...</a></h3>';
                     if($item.content.length > 50) {
                         $item.content = $item.content.substr(0, 50)+'...';
                     }

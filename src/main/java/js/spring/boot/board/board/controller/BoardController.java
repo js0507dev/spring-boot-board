@@ -2,6 +2,7 @@ package js.spring.boot.board.board.controller;
 
 import js.spring.boot.board.board.model.Board;
 import js.spring.boot.board.board.service.BoardService;
+import js.spring.boot.board.common.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,8 @@ public class BoardController {
 
   @GetMapping("/{id}")
   public String selectOne(@PathVariable Long id, Model model) throws Exception {
-    model.addAttribute(boardService.findById(id).get());
+    model.addAttribute(boardService.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("boardID : "+id+" is not found")));
     return TEMPLATE_PREFIX+"singlePage";
   }
 }
