@@ -41,51 +41,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div class="comment-section">
         <div class="grids_of_2">
           <h2>Comments</h2>
-          <div class="grid1_of_2">
+            <div th:each="comment : ${board.comments}">
+          <div class="grid1_of_2" th:classappend="${comment.lookupCommentId == null} ? '' : 'left'">
             <div class="grid_img">
               <a href=""><img th:src="@{/image/pic10.jpg}" alt=""></a>
             </div>
             <div class="grid_text">
-              <h4 class="style1 list"><a href="#">Uku Mason</a></h4>
-              <h3 class="style">march 2, 2013 - 12.50 AM</h3>
-              <p class="para top"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as
-                necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin
-                words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks
-                reasonable.</p>
+              <h4 class="style1 list"><a href="#" th:text="${comment.writerId}"></a></h4>
+              <h3 class="style" th:text="${#temporals.format(comment.regDate, 'yyyy/MM/dd HH:mm')}"></h3>
+              <p class="para top" th:text="${comment.content}"></p>
               <a href="" class="btn1">Click to Reply</a>
             </div>
             <div class="clear"></div>
           </div>
-          <div class="grid1_of_2 left">
-            <div class="grid_img">
-              <a href=""><img th:src="@{/image/pic10.jpg}" alt=""></a>
             </div>
-            <div class="grid_text">
-              <h4 class="style1 list"><a href="#">Designer First</a></h4>
-              <h3 class="style">march 3, 2013 - 4.00 PM</h3>
-              <p class="para top"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as
-                necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin
-                words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks
-                reasonable.</p>
-              <a href="" class="btn1">Click to Reply</a>
-            </div>
-            <div class="clear"></div>
-          </div>
-          <div class="grid1_of_2">
-            <div class="grid_img">
-              <a href=""><img th:src="@{/image/pic12.jpg}" alt=""></a>
-            </div>
-            <div class="grid_text">
-              <h4 class="style1 list"><a href="#">Ro Kanth</a></h4>
-              <h3 class="style">march 2, 2013 - 12.50 AM</h3>
-              <p class="para top"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as
-                necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin
-                words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks
-                reasonable.</p>
-              <a href="" class="btn1">Click to Reply</a>
-            </div>
-            <div class="clear"></div>
-          </div>
           <div class="artical-commentbox">
             <h2>Leave a Comment</h2>
             <div class="table-form">
