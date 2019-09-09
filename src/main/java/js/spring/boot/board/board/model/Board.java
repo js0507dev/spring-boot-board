@@ -3,7 +3,7 @@ package js.spring.boot.board.board.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,8 +15,8 @@ public class Board {
   private Long id;
   private String title;
   private String content;
-  private LocalDate regDate;
-  private LocalDate changeDate;
+  private LocalDateTime regDate;
+  private LocalDateTime changeDate;
   private Long viewCount;
   private String writerId;
 
@@ -28,7 +28,6 @@ public class Board {
   @JoinColumn(name = "boardId")
   private List<BoardCategory> boardCategories;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "boardId")
+  @Transient
   private List<Comment> comments;
 }
