@@ -1,6 +1,7 @@
 package js.spring.boot.board.board.service;
 
 import js.spring.boot.board.board.model.Board;
+import js.spring.boot.board.board.model.Comment;
 import js.spring.boot.board.board.repository.BoardRepository;
 import js.spring.boot.board.board.repository.CommentRepository;
 import js.spring.boot.board.common.exception.ResourceNotFoundException;
@@ -24,8 +25,25 @@ public class BoardService {
 
   @Transactional(readOnly = true)
   public Board findById(Long id) {
-    Board board = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("boardID : "+id+" is not found"));
+    Board board = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("boardID : " + id + " is not found"));
     board.setComments(commentRepository.findByBoardId(id));
     return board;
+  }
+
+  public Comment saveComment(Comment comment) {
+    if (!validComment(comment)) {
+      return null;
+    }
+    return commentRepository.save(comment);
+  }
+
+  private boolean validComment(Comment comment) {
+    if (comment == null) {
+      return false;
+    }
+    if (comment.getBoardId() == null || comment.getBoardId() < 0) {
+      return false;
+    }
+    return true;
   }
 }
