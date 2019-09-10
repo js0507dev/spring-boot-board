@@ -10,9 +10,10 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    @Query(value = "SELECT comment_id, board_id, lookup_comment_id, content, reg_date, change_date, writer_id " +
-            "FROM comment " +
-            "WHERE board_id = :board_id " +
-            "ORDER BY NVL(lookup_comment_id, comment_id), IF(lookup_comment_id IS NULL, -1, comment_id)", nativeQuery = true)
-    List<Comment> findByBoardId(@Param("board_id") Long boardId);
+  @Query(value = "SELECT comment_id, board_id, lookup_comment_id, content, reg_date, change_date, writer_id " +
+                 "FROM comment " +
+                 "WHERE board_id = :board_id " +
+                 "ORDER BY NVL(lookup_comment_id, comment_id), IF(lookup_comment_id IS NULL, -1, comment_id)",
+          nativeQuery = true)
+  List<Comment> findByBoardId(@Param("board_id") Long boardId);
 }

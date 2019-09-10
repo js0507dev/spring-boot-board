@@ -1,16 +1,14 @@
 package js.spring.boot.board.board.controller;
 
 import js.spring.boot.board.board.model.Board;
+import js.spring.boot.board.board.model.Comment;
 import js.spring.boot.board.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +28,19 @@ public class BoardController {
   @GetMapping("/{id}")
   public String selectOne(@PathVariable Long id, Model model) throws Exception {
     model.addAttribute("board", boardService.findById(id));
-    return TEMPLATE_PREFIX+"singlePage";
+    return TEMPLATE_PREFIX + "singlePage";
+  }
+
+  @PostMapping("/{boardId}/comment/{id}")
+  @ResponseBody
+  public String registComment(@PathVariable(name = "boardId") Long boardId,
+                              @PathVariable(name = "id") Long id,
+                              Comment comment) throws Exception {
+    Board board = boardService.findById(boardId);
+    Comment saveComment = boardService.saveComment(comment);
+    if (saveComment == null) {
+      return "error";
+    }
+    return "success";
   }
 }

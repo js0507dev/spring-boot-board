@@ -23,8 +23,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="artical-links">
           <ul>
             <li><a href="#"><img th:src="@{/image/blog-icon2.png}" title="Admin"><span>admin</span></a></li>
-            <li><a href="#"><img th:src="@{/image/blog-icon3.png}" title="Comments"><span>No comments</span></a></li>
-            <li><a href="#"><img th:src="@{/image/blog-icon4.png}" title="Lables"><span>View posts</span></a></li>
+            <li><a href="#"><img th:src="@{/image/blog-icon3.png}" title="Comments"><span>No comments</span></a>
+            </li>
+            <li><a href="#"><img th:src="@{/image/blog-icon4.png}"
+                                 title="Lables"><span>View posts</span></a></li>
           </ul>
         </div>
         <div class="share-artical">
@@ -41,38 +43,92 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div class="comment-section">
         <div class="grids_of_2">
           <h2>Comments</h2>
-            <div th:each="comment : ${board.comments}">
-          <div class="grid1_of_2" th:classappend="${comment.lookupCommentId == null} ? '' : 'left'">
-            <div class="grid_img">
-              <a href=""><img th:src="@{/image/pic10.jpg}" alt=""></a>
+          <div th:each="comment : ${board.comments}">
+            <div class="grid1_of_2" th:classappend="${comment.lookupCommentId == null} ? '' : 'left'">
+              <div class="grid_img">
+                <a href=""><img th:src="@{/image/pic10.jpg}" alt=""></a>
+              </div>
+              <div class="grid_text">
+                <h4 class="style1 list"><a href="#" th:text="${comment.writerId}"></a></h4>
+                <h3 class="style"
+                    th:text="${#temporals.format(comment.regDate, 'yyyy/MM/dd HH:mm')}"></h3>
+                <p class="para top" th:text="${comment.content}"></p>
+                <a href="" class="btn1">Click to Reply</a>
+              </div>
+              <div class="clear"></div>
             </div>
-            <div class="grid_text">
-              <h4 class="style1 list"><a href="#" th:text="${comment.writerId}"></a></h4>
-              <h3 class="style" th:text="${#temporals.format(comment.regDate, 'yyyy/MM/dd HH:mm')}"></h3>
-              <p class="para top" th:text="${comment.content}"></p>
-              <a href="" class="btn1">Click to Reply</a>
-            </div>
-            <div class="clear"></div>
           </div>
-            </div>
-          <div class="artical-commentbox">
+          <div sec:authorize="isAuthenticated()" class="artical-commentbox">
+            <script>
+              function registComment() {
+                var userId = '[[${#authentication.name}]]';
+                var boardId = [[${board.id}]];
+                var content = document.getElementById("content").value;
+                var url = "/board/"+boardId+"/";
+
+                  $.ajax({
+                  url: "/board/",
+                  data: {page: 0, size: options.offset, sort: "id,desc"},
+                  method: "GET",
+                  dataType: "json"
+                })
+                .done(function (json) {
+                  //console.log("test1 :: " + JSON.stringify(json));
+                  var $items = json.content;
+                  var $itemsHtml = "";
+                  $.each($items, function($idx, $item) {
+                    var $itemHtml = '<li>';
+                    $itemHtml += '<div class="post-info">';
+                    $itemHtml += '<div class="post-basic-info">';
+                    if($item.title.length > 15) {
+                      $item.title = $item.title.substr(0, 15)+'...';
+                    }
+                    $itemHtml += '<h3><a href="/board/'+$item.id+'">'+$item.title+'...</a></h3>';
+                    if($item.content.length > 50) {
+                      $item.content = $item.content.substr(0, 50)+'...';
+                    }
+                    $itemHtml += '<p>'+$item.content+'...</p>';
+                    if($item.boardCategories.length > 0) {
+                      $itemHtml += '<span><label> </label>';
+                      $.each($item.boardCategories, function ($ci, $category) {
+                        $itemHtml += '<a href="#">' + $category.categoryName + '</a>&nbsp;';
+                      });
+                      $itemHtml += '</span>';
+                    }
+                    $itemHtml += '</div>';
+                    $itemHtml += '<div class="post-info-rate-share">';
+                    $itemHtml += '<div class="post-view">';
+                    $itemHtml += '<span> </span>&nbsp;'+$item.viewCount;
+                    $itemHtml += '</div>';
+                    $itemHtml += '<div class="post-comment">';
+                    $itemHtml += '<span> </span>&nbsp;0';
+                    $itemHtml += '</div>';
+                    $itemHtml += '<div class="post-share">';
+                    $itemHtml += '<span> </span>';
+                    $itemHtml += '</div>';
+                    $itemHtml += '<div class="clear"></div>';
+                    $itemHtml += '</div>';
+                    $itemHtml += '</div>';
+                    $itemHtml += '</li>';
+                    $itemsHtml += $itemHtml;
+                  });
+                  $tiles.append($itemsHtml);
+                })
+                .fail(function (xhr, status, errorThrown) {
+                  alert("test2");
+                });
+              }
+            </script>
             <h2>Leave a Comment</h2>
             <div class="table-form">
               <form action="#" method="post" name="post_comment">
-                <div>
-                  <label>Name<span>*</span></label>
-                  <input type="text" value=" ">
-                </div>
-                <div>
-                  <label>Email<span>*</span></label>
-                  <input type="text" value=" ">
-                </div>
+                <input type="hidden" id="boardId" th:value="${board.id}">
                 <div>
                   <label>Your Comment<span>*</span></label>
-                  <textarea> </textarea>
+                  <textarea id="content"></textarea>
                 </div>
               </form>
-              <input type="submit" value="submit">
+              <input type="button" value="submit" onClick="registComment()">
 
             </div>
             <div class="clear"></div>
