@@ -1,13 +1,14 @@
 package js.spring.boot.board.user.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SecurityUser extends org.springframework.security.core.userdetails.User {
     private static final String ROLE_PREFIX = "ROLE_";

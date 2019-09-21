@@ -3,7 +3,6 @@ package js.spring.boot.board.board.controller;
 import js.spring.boot.board.board.model.Board;
 import js.spring.boot.board.board.model.Comment;
 import js.spring.boot.board.board.service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -16,13 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/board")
 public class BoardController {
   private static final String TEMPLATE_PREFIX = "board/";
-  @Autowired
-  private BoardService boardService;
+  private final BoardService boardService;
+
+  public BoardController(BoardService boardService) {
+    this.boardService = boardService;
+  }
 
   @GetMapping("")
   @ResponseBody
   public Page<Board> selectAll(final Pageable pageable, HttpServletResponse res) throws Exception {
     return boardService.findAll(pageable);
+  }
+
+  @PostMapping("")
+  public String saveBoard(Board board, Model model) throws Exception {
+    return TEMPLATE_PREFIX + "singlePage";
   }
 
   @GetMapping("/{id}")
@@ -31,9 +38,9 @@ public class BoardController {
     return TEMPLATE_PREFIX + "singlePage";
   }
 
-  @PostMapping("/{boardId}/comment/{id}")
+  @PostMapping("/{boardId}/comment")
   @ResponseBody
-  public String registComment(@PathVariable(name = "boardId") Long boardId,
+  public String saveComment(@PathVariable(name = "boardId") Long boardId,
                               @PathVariable(name = "id") Long id,
                               Comment comment) throws Exception {
     Board board = boardService.findById(boardId);

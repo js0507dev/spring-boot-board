@@ -13,10 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardService {
+  private final BoardRepository boardRepository;
+  private final CommentRepository commentRepository;
+
   @Autowired
-  private BoardRepository boardRepository;
-  @Autowired
-  private CommentRepository commentRepository;
+  public BoardService(BoardRepository boardRepository, CommentRepository commentRepository) {
+    this.boardRepository = boardRepository;
+    this.commentRepository = commentRepository;
+  }
 
   @Transactional(readOnly = true)
   public Page<Board> findAll(Pageable pageable) {
@@ -41,9 +45,6 @@ public class BoardService {
     if (comment == null) {
       return false;
     }
-    if (comment.getBoardId() == null || comment.getBoardId() < 0) {
-      return false;
-    }
-    return true;
+    return comment.getBoardId() != null && comment.getBoardId() >= 0;
   }
 }
