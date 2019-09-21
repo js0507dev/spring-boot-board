@@ -12,21 +12,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 @Service
 public class UserService implements UserDetailsService {
   private static final String ROLE_PREFIX = "ROLE_";
 
-  @Autowired
-  UserRepository userRepository;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+  }
 
-  public User createUser(User user) {
+  public void createUser(User user) {
     try {
       validateUser(user);
     } catch (Exception e) {
@@ -34,18 +36,16 @@ public class UserService implements UserDetailsService {
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRegDate(LocalDate.now());
-    user.setRoles(Arrays.asList(new UserRole(user.getId(), ROLE_PREFIX + "USER")));
-    return userRepository.save(user);
+    user.setRoles(Collections.singletonList(new UserRole(user.getId(), ROLE_PREFIX + "USER")));
+    userRepository.save(user);
   }
 
   @Override
   public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-    return Optional.ofNullable(userRepository.findById(id))
-      .filter(u -> u != null)
-      .map(u -> new SecurityUser(u.get())).get();
+    return new SecurityUser(userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 아이디")));
   }
 
-  private boolean validateUser(User user) throws Exception {
+  private void validateUser(User user) throws Exception {
     if (user == null) {
       throw new Exception("user 정보 없음");
     }
@@ -66,9 +66,8 @@ public class UserService implements UserDetailsService {
       throw new Exception("email규칙 오류");
     }
     if (password == null || password.length() == 0 ||
-      !Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$").matcher(password).find()) {
+      !Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,}$").matcher(password).find()) {
       throw new Exception("password규칙 오류");
     }
-    return true;
   }
 }
