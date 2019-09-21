@@ -28,8 +28,29 @@ public class BoardController {
   }
 
   @PostMapping("")
-  public String saveBoard(Board board, Model model) throws Exception {
-    return TEMPLATE_PREFIX + "singlePage";
+  @ResponseBody
+  public String saveBoard(Board board) throws Exception {
+    if(boardService.saveBoard(board) == null) {
+      return "error";
+    }
+    return "success";
+  }
+
+  @PutMapping("/{id}")
+  @ResponseBody
+  public String updateBoard(@PathVariable Long id,
+                            Board board) throws Exception {
+    if(boardService.updateBoard(id, board) == null) {
+      return "error";
+    }
+    return "success";
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseBody
+  public String deleteBoard(@PathVariable Long id) throws Exception {
+    boardService.deleteBoard(id);
+    return "success";
   }
 
   @GetMapping("/{id}")
@@ -41,13 +62,18 @@ public class BoardController {
   @PostMapping("/{boardId}/comment")
   @ResponseBody
   public String saveComment(@PathVariable(name = "boardId") Long boardId,
-                              @PathVariable(name = "id") Long id,
                               Comment comment) throws Exception {
-    Board board = boardService.findById(boardId);
-    Comment saveComment = boardService.saveComment(comment);
-    if (saveComment == null) {
+    if (!boardId.equals(comment.getBoardId()) || boardService.saveComment(comment) == null) {
       return "error";
     }
+    return "success";
+  }
+
+  @DeleteMapping("/{boardId}/comment/{commentId}")
+  @ResponseBody
+  public String deleteComment(@PathVariable Long boardId,
+                              @PathVariable Long commentId) throws Exception {
+    boardService.deleteComment(boardId, commentId);
     return "success";
   }
 }

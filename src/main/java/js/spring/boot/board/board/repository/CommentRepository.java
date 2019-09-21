@@ -16,4 +16,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                  "ORDER BY NVL(lookup_comment_id, comment_id), IF(lookup_comment_id IS NULL, -1, comment_id)",
           nativeQuery = true)
   List<Comment> findByBoardId(@Param("board_id") Long boardId);
+  @Query(value = "DELETE FROM comment " +
+                 "WHERE board_id = :board_id",
+          nativeQuery = true)
+  void deleteByBoardId(@Param("board_id") Long boardId);
 }
