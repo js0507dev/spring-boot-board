@@ -5,11 +5,12 @@ import js.spring.boot.board.board.model.Comment;
 import js.spring.boot.board.board.service.BoardService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/board")
@@ -23,34 +24,34 @@ public class BoardController {
 
   @GetMapping("")
   @ResponseBody
-  public Page<Board> selectAll(final Pageable pageable, HttpServletResponse res) throws Exception {
-    return boardService.findAll(pageable);
+  public ResponseEntity<Page<Board>> selectAll(final Pageable pageable) throws Exception {
+    HttpHeaders headers = new HttpHeaders();
+    return new ResponseEntity<>(boardService.findAll(pageable), headers, HttpStatus.OK);
   }
 
   @PostMapping("")
   @ResponseBody
-  public String saveBoard(Board board) throws Exception {
-    if(boardService.saveBoard(board) == null) {
-      return "error";
-    }
-    return "success";
+  public ResponseEntity<Board> saveBoard(@RequestBody Board board) throws Exception {
+    Board saveBoard = boardService.saveBoard(board);
+    HttpHeaders httpHeaders = new HttpHeaders();
+    return new ResponseEntity<>(saveBoard, httpHeaders, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
   @ResponseBody
-  public String updateBoard(@PathVariable Long id,
-                            Board board) throws Exception {
-    if(boardService.updateBoard(id, board) == null) {
-      return "error";
-    }
-    return "success";
+  public ResponseEntity<Board> updateBoard(@PathVariable Long id,
+                                           @RequestBody Board board) throws Exception {
+    Board updateBoard = boardService.updateBoard(id, board);
+    HttpHeaders httpHeaders = new HttpHeaders();
+    return new ResponseEntity<>(updateBoard, httpHeaders, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
   @ResponseBody
-  public String deleteBoard(@PathVariable Long id) throws Exception {
+  public ResponseEntity<Board> deleteBoard(@PathVariable Long id) throws Exception {
     boardService.deleteBoard(id);
-    return "success";
+    HttpHeaders httpHeaders = new HttpHeaders();
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
@@ -64,6 +65,17 @@ public class BoardController {
   public String saveComment(@PathVariable(name = "boardId") Long boardId,
                               Comment comment) throws Exception {
     if (!boardId.equals(comment.getBoardId()) || boardService.saveComment(comment) == null) {
+      return "error";
+    }
+    return "success";
+  }
+
+  @PutMapping("/{boardId}/comment/{commentId}")
+  @ResponseBody
+  public String updateComment(@PathVariable(name = "boardId") Long boardId,
+                              @PathVariable(name = "commentId") Long commentId,
+                              Comment comment) throws Exception {
+    if (!boardId.equals(comment.getBoardId()) || boardService.updateComment(commentId,comment) == null) {
       return "error";
     }
     return "success";
