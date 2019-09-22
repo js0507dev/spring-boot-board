@@ -1,5 +1,6 @@
 package js.spring.boot.board.board.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 public class Board {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -15,4 +15,9 @@ public class BoardFileId implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long boardId;
+
+    public BoardFileId(Long boardId, Long id) {
+        this.boardId = boardId;
+        this.id = id;
+    }
 }
