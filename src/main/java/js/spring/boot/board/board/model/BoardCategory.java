@@ -1,7 +1,6 @@
 package js.spring.boot.board.board.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,6 +8,8 @@ import javax.persistence.Entity;
 @Data
 @Entity
 @EqualsAndHashCode(of = "id")
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class BoardCategory {
     @EmbeddedId
     private BoardCategoryId id;

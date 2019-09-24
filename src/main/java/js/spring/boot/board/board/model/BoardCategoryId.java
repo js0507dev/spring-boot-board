@@ -1,6 +1,9 @@
 package js.spring.boot.board.board.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,6 +13,8 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class BoardCategoryId implements Serializable {
     @Column(name = "categoryId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

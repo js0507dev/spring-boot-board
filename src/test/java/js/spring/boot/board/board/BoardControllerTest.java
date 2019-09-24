@@ -18,7 +18,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BoardControllerTest {
   private BoardController subject;
 
-  @Mock
+  @Autowired
   private BoardService boardService;
 
   @Autowired
@@ -74,8 +73,8 @@ public class BoardControllerTest {
 
     given(boardService.findById(eq(1L))).willReturn(response);
     given(boardService.findAll(any())).willReturn(findAllResponse);
-    given(boardService.saveBoard(any(Board.class))).willReturn(response);
-    given(boardService.updateBoard(eq(1L),any(Board.class))).willReturn(response);
+    //given(boardService.saveBoard(any(Board.class))).willReturn(response);
+    //given(boardService.updateBoard(eq(1L),any(Board.class))).willReturn(response);
   }
 
   @Test
@@ -100,20 +99,20 @@ public class BoardControllerTest {
 
   @Test
   public void shouldSaveBoard() throws Exception {
-    // TODO: 생성자 문제로 인해 제대로 호출이 되지 않음
+    // TODO: 로그인없이 왜 되는거지?
     mockMvc.perform(post("/board")
                     .param("title","test")
                     .param("content","test")
                     .param("writerId","test")
     )
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.board").exists())
+            .andExpect(jsonPath("$.content").exists())
             .andDo(print());
   }
 
   @Test
   public void shouldUpdateBoard() throws Exception {
-    // TODO: 생성자 문제로 인해 제대로 호출이 되지 않음
+    // TODO: 로그인없이 왜 되는거지?
     mockMvc.perform(put("/board/{id}", 1L)
             .param("id","1")
             .param("title","test2")
@@ -121,12 +120,13 @@ public class BoardControllerTest {
             .param("writerId","test")
     )
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.board").exists())
+            .andExpect(jsonPath("$.content").exists())
             .andDo(print());
   }
 
   @Test
   public void shouldDeleteBoard() throws Exception {
+    // TODO: 로그인없이 왜 되는거지?
     mockMvc.perform(delete("/board/{id}", 1L))
             .andExpect(status().isOk())
             .andDo(print());

@@ -1,7 +1,6 @@
 package js.spring.boot.board.board.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +9,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Board {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
