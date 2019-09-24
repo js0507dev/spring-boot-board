@@ -31,7 +31,7 @@ public class BoardController {
 
   @PostMapping("")
   @ResponseBody
-  public ResponseEntity<Board> saveBoard(@RequestBody Board board) throws Exception {
+  public ResponseEntity<Board> saveBoard(Board board) throws Exception {
     Board saveBoard = boardService.saveBoard(board);
     HttpHeaders httpHeaders = new HttpHeaders();
     return new ResponseEntity<>(saveBoard, httpHeaders, HttpStatus.CREATED);
@@ -40,7 +40,7 @@ public class BoardController {
   @PutMapping("/{id}")
   @ResponseBody
   public ResponseEntity<Board> updateBoard(@PathVariable Long id,
-                                           @RequestBody Board board) throws Exception {
+                                           Board board) throws Exception {
     Board updateBoard = boardService.updateBoard(id, board);
     HttpHeaders httpHeaders = new HttpHeaders();
     return new ResponseEntity<>(updateBoard, httpHeaders, HttpStatus.OK);
